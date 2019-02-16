@@ -11,6 +11,8 @@ public class CanvasView extends View {
     private Paint paint;
     private float posX;
     private float posY;
+    private float preXV;
+    private float preYV;
 
     public CanvasView(Context con, AttributeSet as) {
         super(con, as);
@@ -29,9 +31,16 @@ public class CanvasView extends View {
         canvas.drawCircle(cx + posX, cy + posY, 50, paint);
     }
 
-    public void setPos(float x, float y) {
-        posX = x * -30;
-        posY = y * 30;
+    public void setPos(float ax, float ay) {
+        float dt = 3.0f;
+        ax *= -1;
+
+        // 時間を進める処理
+        posX = preXV * dt + ax * dt * dt;
+        preXV += ax * dt;
+
+        posY = preYV * dt + ay * dt * dt;
+        preYV += ay * dt;
 
         invalidate();   // 再描画
     }
